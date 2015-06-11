@@ -19,6 +19,8 @@
 		416922BA1B285E2C004F76AF /* PESGraphEdge.m in Sources */ = {isa = PBXBuildFile; fileRef = 416922B91B285E2C004F76AF /* PESGraphEdge.m */; };
 		416922BD1B285E65004F76AF /* PESGraphRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 416922BC1B285E65004F76AF /* PESGraphRoute.m */; };
 		416922C01B285EA0004F76AF /* PESGraphRouteStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 416922BF1B285EA0004F76AF /* PESGraphRouteStep.m */; };
+		41B242BA1B29A40C0008D59F /* PESGraphTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41B242B91B29A40C0008D59F /* PESGraphTests-Info.plist */; };
+		41B242BD1B29A44B0008D59F /* PESGraphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B242BC1B29A44B0008D59F /* PESGraphTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,9 @@
 		416922BC1B285E65004F76AF /* PESGraphRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PESGraphRoute.m; sourceTree = "<group>"; };
 		416922BE1B285EA0004F76AF /* PESGraphRouteStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PESGraphRouteStep.h; sourceTree = "<group>"; };
 		416922BF1B285EA0004F76AF /* PESGraphRouteStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PESGraphRouteStep.m; sourceTree = "<group>"; };
+		41B242B91B29A40C0008D59F /* PESGraphTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PESGraphTests-Info.plist"; sourceTree = "<group>"; };
+		41B242BB1B29A42D0008D59F /* PESGraphTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PESGraphTests.h; sourceTree = "<group>"; };
+		41B242BC1B29A44B0008D59F /* PESGraphTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PESGraphTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +126,9 @@
 		416922A41B285CC8004F76AF /* ShotestPathTests */ = {
 			isa = PBXGroup;
 			children = (
+				41B242B91B29A40C0008D59F /* PESGraphTests-Info.plist */,
+				41B242BB1B29A42D0008D59F /* PESGraphTests.h */,
+				41B242BC1B29A44B0008D59F /* PESGraphTests.m */,
 				416922A71B285CC8004F76AF /* ShotestPathTests.m */,
 				416922A51B285CC8004F76AF /* Supporting Files */,
 			);
@@ -242,6 +250,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41B242BA1B29A40C0008D59F /* PESGraphTests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				416922A81B285CC8004F76AF /* ShotestPathTests.m in Sources */,
+				41B242BD1B29A44B0008D59F /* PESGraphTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +466,7 @@
 				416922AD1B285CC9004F76AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		416922AE1B285CC9004F76AF /* Build configuration list for PBXNativeTarget "ShotestPathTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +475,7 @@
 				416922B01B285CC9004F76AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
