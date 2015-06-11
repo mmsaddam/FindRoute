@@ -5,18 +5,18 @@
 //  Created by Muzahidul Islam on 6/10/15.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.//
 
-#import "PESGraphNode.h"
+#import "GraphNode.h"
 
-@implementation PESGraphNode
+@implementation GraphNode
 
 @synthesize identifier;
 @synthesize title;
 @synthesize additionalData;
 
 
-+ (PESGraphNode *)nodeWithIdentifier:(NSString *)anIdentifier {
++ (GraphNode *)nodeWithIdentifier:(NSString *)anIdentifier {
     
-    PESGraphNode *aNode = [[PESGraphNode alloc] init];
+    GraphNode *aNode = [[GraphNode alloc] init];
     
     aNode.identifier = anIdentifier;
     

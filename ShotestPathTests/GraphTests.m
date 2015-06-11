@@ -2,36 +2,36 @@
 //  PESGraphTests.m
 //  PESGraphTests
 //
-//  Created by Peter Snyder on 8/20/11.
+//  Created by Created by Muzahidul Islam on 6/10/15.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 
-#import "PESGraphTests.h"
-#import "PESGraph.h"
-#import "PESGraphNode.h"
-#import "PESGraphEdge.h"
-#import "PESGraphRoute.h"
+#import "GraphTests.h"
+#import "Graph.h"
+#import "GraphNode.h"
+#import "GraphEdge.h"
+#import "GraphRoute.h"
 
-@implementation PESGraphTests
+@implementation GraphTests
 
 // Basic test to make sure we can keep track of all nodes in the graph
 - (void)testAddingNodes
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
     
     // Create four basic nodes, connect them, add them to the graph, 
     // and make sure the graph contains them all.
     
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
 
-    [graph addEdge:[PESGraphEdge edgeWithName:@"A-B"] fromNode:aNode toNode:bNode];
-    [graph addEdge:[PESGraphEdge edgeWithName:@"B-D"] fromNode:bNode toNode:dNode];
-    [graph addEdge:[PESGraphEdge edgeWithName:@"C-D"] fromNode:cNode toNode:dNode];
-    [graph addEdge:[PESGraphEdge edgeWithName:@"A-C"] fromNode:aNode toNode:cNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"A-B"] fromNode:aNode toNode:bNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"B-D"] fromNode:bNode toNode:dNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"C-D"] fromNode:cNode toNode:dNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"A-C"] fromNode:aNode toNode:cNode];
     
     XCTAssertEqual([NSNumber numberWithInt:4], [NSNumber numberWithInt:(int)graph.nodes.count], @"Bad Amount, graph should contain 4 elements, not %lu", (unsigned long)graph.nodes.count);
     
@@ -48,19 +48,19 @@
 //
 - (void)testBiDirectionalEdges
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
 
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
-    PESGraphNode *fNode = [PESGraphNode nodeWithIdentifier:@"F"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
+    GraphNode *fNode = [GraphNode nodeWithIdentifier:@"F"];
     
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A-C" andWeight:[NSNumber numberWithInt:4]] fromNode:aNode toNode:bNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A-B" andWeight:[NSNumber numberWithInt:3]] fromNode:aNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C-D" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B-D" andWeight:[NSNumber numberWithInt:6]] fromNode:bNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"D-F" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A-C" andWeight:[NSNumber numberWithInt:4]] fromNode:aNode toNode:bNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A-B" andWeight:[NSNumber numberWithInt:3]] fromNode:aNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C-D" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B-D" andWeight:[NSNumber numberWithInt:6]] fromNode:bNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D-F" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:fNode];
 
     // Now check to make sure those weights are still as we expect them to be
     XCTAssertEqual([NSNumber numberWithInt:2], [graph weightFromNode:cNode toNeighboringNode:dNode], @"Invald weight from c -> d, should be 2, not %@", [graph weightFromNode:cNode toNeighboringNode:dNode]);
@@ -86,17 +86,17 @@
 //
 - (void)testUniDirectionalEdges
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
     
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
 
-    [graph addEdge:[PESGraphEdge edgeWithName:@"A -> B" andWeight:[NSNumber numberWithInt:4]] fromNode:aNode toNode:bNode];
-    [graph addEdge:[PESGraphEdge edgeWithName:@"B -> C" andWeight:[NSNumber numberWithInt:2]] fromNode:bNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:3]] fromNode:cNode toNode:dNode];
-    [graph addEdge:[PESGraphEdge edgeWithName:@"D -> A" andWeight:[NSNumber numberWithInt:10]] fromNode:dNode toNode:aNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"A -> B" andWeight:[NSNumber numberWithInt:4]] fromNode:aNode toNode:bNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"B -> C" andWeight:[NSNumber numberWithInt:2]] fromNode:bNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:3]] fromNode:cNode toNode:dNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"D -> A" andWeight:[NSNumber numberWithInt:10]] fromNode:dNode toNode:aNode];
 
     // Now check that the edges all line up
     NSNumber *aToBWeight = [graph weightFromNode:aNode toNeighboringNode:bNode];    
@@ -127,19 +127,19 @@
 //
 - (void)testNeighboringNodes
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
     
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
-    PESGraphNode *fNode = [PESGraphNode nodeWithIdentifier:@"F"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
+    GraphNode *fNode = [GraphNode nodeWithIdentifier:@"F"];
     
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A-C" andWeight:[NSNumber numberWithInt:4]] fromNode:aNode toNode:bNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A-B" andWeight:[NSNumber numberWithInt:3]] fromNode:aNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C-D" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B-D" andWeight:[NSNumber numberWithInt:6]] fromNode:bNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"D-F" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A-C" andWeight:[NSNumber numberWithInt:4]] fromNode:aNode toNode:bNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A-B" andWeight:[NSNumber numberWithInt:3]] fromNode:aNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C-D" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B-D" andWeight:[NSNumber numberWithInt:6]] fromNode:bNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D-F" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:fNode];
 
     NSSet *neighborsOfA = [graph neighborsOfNode:aNode];
     XCTAssertTrue([neighborsOfA containsObject:bNode], @"Incorrect Neighbors.  Node B should be a neighbor of A");
@@ -154,26 +154,26 @@
 // http://en.wikipedia.org/wiki/Dijkstra's_algorithm
 - (void)testShortestPath
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
     
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
-    PESGraphNode *eNode = [PESGraphNode nodeWithIdentifier:@"E"];
-    PESGraphNode *fNode = [PESGraphNode nodeWithIdentifier:@"F"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
+    GraphNode *eNode = [GraphNode nodeWithIdentifier:@"E"];
+    GraphNode *fNode = [GraphNode nodeWithIdentifier:@"F"];
     
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:7]] fromNode:aNode toNode:bNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> C" andWeight:[NSNumber numberWithInt:9]] fromNode:aNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> F" andWeight:[NSNumber numberWithInt:14]] fromNode:aNode toNode:fNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:10]] fromNode:bNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B <-> D" andWeight:[NSNumber numberWithInt:15]] fromNode:bNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> F" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:fNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:11]] fromNode:cNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:6]] fromNode:dNode toNode:eNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"E <-> F" andWeight:[NSNumber numberWithInt:9]] fromNode:eNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:7]] fromNode:aNode toNode:bNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> C" andWeight:[NSNumber numberWithInt:9]] fromNode:aNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> F" andWeight:[NSNumber numberWithInt:14]] fromNode:aNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:10]] fromNode:bNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> D" andWeight:[NSNumber numberWithInt:15]] fromNode:bNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> F" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:11]] fromNode:cNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:6]] fromNode:dNode toNode:eNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"E <-> F" andWeight:[NSNumber numberWithInt:9]] fromNode:eNode toNode:fNode];
 
-    PESGraphRoute *route = [graph shortestRouteFromNode:aNode toNode:eNode];
+    GraphRoute *route = [graph shortestRouteFromNode:aNode toNode:eNode];
 
     // There should be three steps in the route, from A -> C -> F -> E
     XCTAssertTrue(4 == [route count], @"Invald number of steps in route, should be 4, not %lu", (unsigned long)[route count]);
@@ -187,23 +187,23 @@
 // http://computer.howstuffworks.com/routing-algorithm3.htm
 - (void)testShortestPathSecond
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
     
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
-    PESGraphNode *eNode = [PESGraphNode nodeWithIdentifier:@"E"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
+    GraphNode *eNode = [GraphNode nodeWithIdentifier:@"E"];
 
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:1]] fromNode:aNode toNode:bNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> C" andWeight:[NSNumber numberWithInt:5]] fromNode:aNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B <-> D" andWeight:[NSNumber numberWithInt:2]] fromNode:bNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B <-> E" andWeight:[NSNumber numberWithInt:4]] fromNode:bNode toNode:eNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> E" andWeight:[NSNumber numberWithInt:3]] fromNode:cNode toNode:eNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:eNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:1]] fromNode:aNode toNode:bNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> C" andWeight:[NSNumber numberWithInt:5]] fromNode:aNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> D" andWeight:[NSNumber numberWithInt:2]] fromNode:bNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> E" andWeight:[NSNumber numberWithInt:4]] fromNode:bNode toNode:eNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> E" andWeight:[NSNumber numberWithInt:3]] fromNode:cNode toNode:eNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:eNode];
     
-    PESGraphRoute *route = [graph shortestRouteFromNode:aNode toNode:eNode];
+    GraphRoute *route = [graph shortestRouteFromNode:aNode toNode:eNode];
 
     // There should be four steps in the route, from A -> B -> D -> E
     XCTAssertTrue(4 == [route count], @"Invald number of steps in route, should be 4, not %lu", (unsigned long)[route count]);
@@ -217,35 +217,35 @@
 // http://www.math.unm.edu/~loring/links/graph_s09/dijskstra3.pdf (first problem)
 - (void)testShortestPathThird
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
     
-    PESGraphNode *oNode = [PESGraphNode nodeWithIdentifier:@"O"];
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
-    PESGraphNode *eNode = [PESGraphNode nodeWithIdentifier:@"E"];
-    PESGraphNode *fNode = [PESGraphNode nodeWithIdentifier:@"F"];
-    PESGraphNode *gNode = [PESGraphNode nodeWithIdentifier:@"G"];
-    PESGraphNode *hNode = [PESGraphNode nodeWithIdentifier:@"H"];
-    PESGraphNode *iNode = [PESGraphNode nodeWithIdentifier:@"I"];
-    PESGraphNode *tNode = [PESGraphNode nodeWithIdentifier:@"T"];
+    GraphNode *oNode = [GraphNode nodeWithIdentifier:@"O"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
+    GraphNode *eNode = [GraphNode nodeWithIdentifier:@"E"];
+    GraphNode *fNode = [GraphNode nodeWithIdentifier:@"F"];
+    GraphNode *gNode = [GraphNode nodeWithIdentifier:@"G"];
+    GraphNode *hNode = [GraphNode nodeWithIdentifier:@"H"];
+    GraphNode *iNode = [GraphNode nodeWithIdentifier:@"I"];
+    GraphNode *tNode = [GraphNode nodeWithIdentifier:@"T"];
     
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"O <-> A" andWeight:[NSNumber numberWithInt:1]] fromNode:oNode toNode:aNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"O <-> D" andWeight:[NSNumber numberWithInt:1]] fromNode:oNode toNode:dNode];    
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:2]] fromNode:aNode toNode:bNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> T" andWeight:[NSNumber numberWithInt:9]] fromNode:aNode toNode:tNode];    
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:2]] fromNode:bNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B <-> F" andWeight:[NSNumber numberWithInt:2]] fromNode:bNode toNode:fNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> E" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:eNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"D <-> G" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:gNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"E <-> F" andWeight:[NSNumber numberWithInt:2]] fromNode:eNode toNode:fNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"E <-> I" andWeight:[NSNumber numberWithInt:2]] fromNode:eNode toNode:iNode];    
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"F <-> H" andWeight:[NSNumber numberWithInt:1]] fromNode:fNode toNode:hNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"G <-> H" andWeight:[NSNumber numberWithInt:1]] fromNode:gNode toNode:hNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"I <-> T" andWeight:[NSNumber numberWithInt:1]] fromNode:iNode toNode:tNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"O <-> A" andWeight:[NSNumber numberWithInt:1]] fromNode:oNode toNode:aNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"O <-> D" andWeight:[NSNumber numberWithInt:1]] fromNode:oNode toNode:dNode];    
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:2]] fromNode:aNode toNode:bNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> T" andWeight:[NSNumber numberWithInt:9]] fromNode:aNode toNode:tNode];    
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:2]] fromNode:bNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> F" andWeight:[NSNumber numberWithInt:2]] fromNode:bNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> E" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:eNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D <-> G" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:gNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"E <-> F" andWeight:[NSNumber numberWithInt:2]] fromNode:eNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"E <-> I" andWeight:[NSNumber numberWithInt:2]] fromNode:eNode toNode:iNode];    
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"F <-> H" andWeight:[NSNumber numberWithInt:1]] fromNode:fNode toNode:hNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"G <-> H" andWeight:[NSNumber numberWithInt:1]] fromNode:gNode toNode:hNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"I <-> T" andWeight:[NSNumber numberWithInt:1]] fromNode:iNode toNode:tNode];
 
-    PESGraphRoute *route = [graph shortestRouteFromNode:oNode toNode:tNode];
+    GraphRoute *route = [graph shortestRouteFromNode:oNode toNode:tNode];
     
     // There are two valid, equally weighted trips here, O -> A -> B -> C -> E -> I -> T and O -> D -> G -> H -> F -> E -> I -> T
     // Both have a total distance of 9
@@ -257,19 +257,19 @@
 // Test removing uni-directional edges from a graph
 - (void)testRemoveEdgeFromNode
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
 
     // Create a simple graph with four nodes, and five several uni-directional edges
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
     
-    [graph addEdge:[PESGraphEdge edgeWithName:@"A -> B"] fromNode:aNode toNode:bNode];
-    [graph addEdge:[PESGraphEdge edgeWithName:@"B -> D"] fromNode:bNode toNode:dNode];
-    [graph addEdge:[PESGraphEdge edgeWithName:@"B -> A"] fromNode:bNode toNode:aNode];    
-    [graph addEdge:[PESGraphEdge edgeWithName:@"C -> D"] fromNode:cNode toNode:dNode];
-    [graph addEdge:[PESGraphEdge edgeWithName:@"A -> C"] fromNode:aNode toNode:cNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"A -> B"] fromNode:aNode toNode:bNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"B -> D"] fromNode:bNode toNode:dNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"B -> A"] fromNode:bNode toNode:aNode];    
+    [graph addEdge:[GraphEdge edgeWithName:@"C -> D"] fromNode:cNode toNode:dNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"A -> C"] fromNode:aNode toNode:cNode];
     
     XCTAssertEqual([NSNumber numberWithInt:4], [NSNumber numberWithInt:(int)graph.nodes.count], @"Bad Amount, graph should contain 4 node, not %lu", (unsigned long)graph.nodes.count);
     XCTAssertEqual([NSNumber numberWithInt:5], [NSNumber numberWithInt:(int)[graph edgeCount]], @"Bad Amount, graph should contain 5 edges, not %ld", (long)[graph edgeCount]);
@@ -293,7 +293,7 @@
     XCTAssertNil([graph edgeFromNode:aNode toNeighboringNode:cNode], @"An edge from A -> C should exist in the graph");
     
     // Next, make sure we can add the edge back in and have everything update correctly
-    [graph addEdge:[PESGraphEdge edgeWithName:@"A -> C"] fromNode:aNode toNode:cNode];
+    [graph addEdge:[GraphEdge edgeWithName:@"A -> C"] fromNode:aNode toNode:cNode];
     XCTAssertEqual([NSNumber numberWithInt:4], [NSNumber numberWithInt:(int)[graph edgeCount]], @"Bad Amount, graph should now contain 4 edges, not %ld", (long)[graph edgeCount]);
     XCTAssertNotNil([graph edgeFromNode:aNode toNeighboringNode:cNode], @"An edge from A -> C should exist in the graph");
         
@@ -303,19 +303,19 @@
 
 - (void)testRemoveBiDirectionalEdgeFromNode
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
     
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
-    PESGraphNode *fNode = [PESGraphNode nodeWithIdentifier:@"F"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
+    GraphNode *fNode = [GraphNode nodeWithIdentifier:@"F"];
     
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A-C" andWeight:[NSNumber numberWithInt:4]] fromNode:aNode toNode:bNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A-B" andWeight:[NSNumber numberWithInt:3]] fromNode:aNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C-D" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B-D" andWeight:[NSNumber numberWithInt:6]] fromNode:bNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"D-F" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A-C" andWeight:[NSNumber numberWithInt:4]] fromNode:aNode toNode:bNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A-B" andWeight:[NSNumber numberWithInt:3]] fromNode:aNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C-D" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B-D" andWeight:[NSNumber numberWithInt:6]] fromNode:bNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D-F" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:fNode];
 
     // Basic sanity check to make sure the graph looks how we expect
     XCTAssertEqual([NSNumber numberWithInt:5], [NSNumber numberWithInt:(int)graph.nodes.count], @"Bad Amount, graph should contain 4 node, not %lu", (unsigned long)graph.nodes.count);

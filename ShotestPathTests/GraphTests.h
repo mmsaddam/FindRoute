@@ -8,6 +8,6 @@
 
 #import <XCTest/XCTest.h>
 
-@interface PESGraphTests : XCTestCase
+@interface GraphTests : XCTestCase
 
 @end

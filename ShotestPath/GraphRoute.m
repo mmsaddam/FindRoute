@@ -6,12 +6,12 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "PESGraphRoute.h"
-#import "PESGraphRouteStep.h"
-#import "PESGraphNode.h"
-#import "PESGraphEdge.h"
+#import "GraphRoute.h"
+#import "GraphRouteStep.h"
+#import "GraphNode.h"
+#import "GraphEdge.h"
 
-@implementation PESGraphRoute
+@implementation GraphRoute
 
 @synthesize steps;
 
@@ -27,9 +27,9 @@
     return self;
 }
 
-- (void)addStepFromNode:(PESGraphNode *)aNode withEdge:(PESGraphEdge *)anEdge
+- (void)addStepFromNode:(GraphNode *)aNode withEdge:(GraphEdge *)anEdge
 {
-    PESGraphRouteStep *aStep = [[PESGraphRouteStep alloc] initWithNode:aNode
+    GraphRouteStep *aStep = [[GraphRouteStep alloc] initWithNode:aNode
                                                                andEdge:anEdge
                                                            asBeginning:([steps count] == 0)];
     
@@ -42,7 +42,7 @@
     
     [string appendString:@"Start: \n"];
     
-    for (PESGraphRouteStep *aStep in steps) {
+    for (GraphRouteStep *aStep in steps) {
         
         if (aStep.edge) {
             
@@ -63,12 +63,12 @@
     return [steps count];
 }
 
-- (PESGraphNode *)startingNode {
+- (GraphNode *)startingNode {
     
     return ([self count] > 0) ? [[steps objectAtIndex:0] node] : nil;
 }
 
-- (PESGraphNode *)endingNode {
+- (GraphNode *)endingNode {
     
     return ([self count] > 0) ? [[steps objectAtIndex:([self count] - 1)] node] : nil;
 }
@@ -77,7 +77,7 @@
     
     float totalLength = 0;
     
-    for (PESGraphRouteStep *aStep in steps) {
+    for (GraphRouteStep *aStep in steps) {
         
         if (aStep.edge) {
             

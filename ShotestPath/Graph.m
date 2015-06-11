@@ -6,12 +6,12 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "PESGraph.h"
-#import "PESGraphEdge.h"
-#import "PESGraphNode.h"
-#import "PESGraphRoute.h"
+#import "Graph.h"
+#import "GraphEdge.h"
+#import "GraphNode.h"
+#import "GraphRoute.h"
 
-@implementation PESGraph
+@implementation Graph
 
 @synthesize nodes;
 
@@ -28,12 +28,12 @@
     return self;
 }
 
-- (PESGraphNode *)nodeInGraphWithIdentifier:(NSString *)anIdentifier
+- (GraphNode *)nodeInGraphWithIdentifier:(NSString *)anIdentifier
 {
     return [nodes objectForKey:anIdentifier];
 }
 
-- (PESGraphEdge *)edgeFromNode:(PESGraphNode *)sourceNode toNeighboringNode:(PESGraphNode *)destinationNode
+- (GraphEdge *)edgeFromNode:(GraphNode *)sourceNode toNeighboringNode:(GraphNode *)destinationNode
 {
     // First check to make sure a node with the identifier of the given source node exists in the graph
     if ( ! [nodeEdges objectForKey:sourceNode.identifier]) {
@@ -48,9 +48,9 @@
     }
 }
 
-- (NSNumber *)weightFromNode:(PESGraphNode *)sourceNode toNeighboringNode:(PESGraphNode *)destinationNode
+- (NSNumber *)weightFromNode:(GraphNode *)sourceNode toNeighboringNode:(GraphNode *)destinationNode
 {
-    PESGraphEdge *graphEdge = [self edgeFromNode:sourceNode toNeighboringNode:destinationNode];
+    GraphEdge *graphEdge = [self edgeFromNode:sourceNode toNeighboringNode:destinationNode];
     
     return (graphEdge) ? graphEdge.weight : nil;
 }
@@ -67,7 +67,7 @@
     return edgeCount;
 }
 
-- (NSSet *)neighborsOfNode:(PESGraphNode *)aNode
+- (NSSet *)neighborsOfNode:(GraphNode *)aNode
 {
     NSDictionary *edgesFromNode = [nodeEdges objectForKey:aNode.identifier];
     
@@ -95,13 +95,13 @@
 
 - (NSSet *)neighborsOfNodeWithIdentifier:(NSString *)aNodeIdentifier
 {
-    PESGraphNode *identifiedNode = [nodes objectForKey:aNodeIdentifier];
+    GraphNode *identifiedNode = [nodes objectForKey:aNodeIdentifier];
     
     return (identifiedNode == nil) ? nil : [self neighborsOfNode:identifiedNode];
 }
 
 
-- (void)addEdge:(PESGraphEdge *)anEdge fromNode:(PESGraphNode *)aNode toNode:(PESGraphNode *)anotherNode
+- (void)addEdge:(GraphEdge *)anEdge fromNode:(GraphNode *)aNode toNode:(GraphNode *)anotherNode
 {
     [nodes setObject:aNode forKey:aNode.identifier];
     [nodes setObject:anotherNode forKey:anotherNode.identifier];
@@ -123,7 +123,7 @@
     }
 }
 
-- (BOOL)removeEdgeFromNode:(PESGraphNode*)aNode toNode:(PESGraphNode*)anotherNode
+- (BOOL)removeEdgeFromNode:(GraphNode*)aNode toNode:(GraphNode*)anotherNode
 {
     // Check to see if the edge exists.  No such edge exists, return false and do nothing
     if ([[nodeEdges objectForKey:aNode.identifier] objectForKey:anotherNode.identifier] == nil) {
@@ -138,17 +138,17 @@
     }
 }
 
-- (void)addBiDirectionalEdge:(PESGraphEdge *)anEdge fromNode:(PESGraphNode *)aNode toNode:(PESGraphNode *)anotherNode
+- (void)addBiDirectionalEdge:(GraphEdge *)anEdge fromNode:(GraphNode *)aNode toNode:(GraphNode *)anotherNode
 {
     [self addEdge:anEdge fromNode:aNode toNode:anotherNode];
     [self addEdge:anEdge fromNode:anotherNode toNode:aNode];
 }
 
-- (BOOL)removeBiDirectionalEdgeFromNode:(PESGraphNode*)aNode toNode:(PESGraphNode*)anotherNode
+- (BOOL)removeBiDirectionalEdgeFromNode:(GraphNode*)aNode toNode:(GraphNode*)anotherNode
 {
     // First, make sure edges exist in both directions.  If they don't, return NO and do nothing
-    PESGraphEdge *toEdge = [self edgeFromNode:aNode toNeighboringNode:anotherNode];
-    PESGraphEdge *fromEdge = [self edgeFromNode:anotherNode toNeighboringNode:aNode];
+    GraphEdge *toEdge = [self edgeFromNode:aNode toNeighboringNode:anotherNode];
+    GraphEdge *fromEdge = [self edgeFromNode:anotherNode toNeighboringNode:aNode];
     
     if (toEdge == nil || fromEdge == nil) {
         
@@ -165,7 +165,7 @@
 
 // Returns the quickest possible path between two nodes, using Dijkstra's algorithm
 // http://en.wikipedia.org/wiki/Dijkstra's_algorithm
-- (PESGraphRoute *)shortestRouteFromNode:(PESGraphNode *)startNode toNode:(PESGraphNode *)endNode
+- (GraphRoute *)shortestRouteFromNode:(GraphNode *)startNode toNode:(GraphNode *)endNode
 {
     NSMutableDictionary *unexaminedNodes = [NSMutableDictionary dictionaryWithDictionary:self.nodes];
     
@@ -210,7 +210,7 @@
             
         } else {
             
-            PESGraphNode *nodeMostRecentlyExamined = [self nodeInGraphWithIdentifier:identifierOfSmallestDist];
+            GraphNode *nodeMostRecentlyExamined = [self nodeInGraphWithIdentifier:identifierOfSmallestDist];
             
             // If the next closest node to the origin is the target node, we don't need to consider any more
             // possibilities, we've already hit the shortest distance!  So, we can remove all other
@@ -227,7 +227,7 @@
                 [unexaminedNodes removeObjectForKey:identifierOfSmallestDist];
                 
                 // Now, iterate over all the nodes that touch the one closest to the graph
-                for (PESGraphNode *neighboringNode in [self neighborsOfNodeWithIdentifier:identifierOfSmallestDist]) {
+                for (GraphNode *neighboringNode in [self neighborsOfNodeWithIdentifier:identifierOfSmallestDist]) {
                     
                     // Calculate the distance to the origin, from the neighboring node, through the most recently
                     // examined node.  If its less than the shortest path we've found from the neighboring node
@@ -268,7 +268,7 @@
         
         // If we did successfully find a path, create and populate a route object, describing each step
         // of the path.
-        PESGraphRoute *route = [[PESGraphRoute alloc] init];
+        GraphRoute *route = [[GraphRoute alloc] init];
         
         // We do this by first building the route backwards, so the below array with have the last step
         // in the route (the destination) in the 0th position, and the origin in the last position
@@ -276,8 +276,8 @@
         
         [nodesInRouteInReverseOrder addObject:endNode];
         
-        PESGraphNode *lastStepNode = endNode;
-        PESGraphNode *previousNode;
+        GraphNode *lastStepNode = endNode;
+        GraphNode *previousNode;
         
         while ((previousNode = [previousNodeInOptimalPath objectForKey:lastStepNode.identifier])) {
             
@@ -290,8 +290,8 @@
         NSUInteger numNodesInPath = [nodesInRouteInReverseOrder count];
         for (int i = (int)numNodesInPath - 1; i >= 0; i--) {
             
-            PESGraphNode *currentGraphNode = [nodesInRouteInReverseOrder objectAtIndex:i];
-            PESGraphNode *nextGraphNode = (i - 1 < 0) ? nil : [nodesInRouteInReverseOrder objectAtIndex:(i - 1)];
+            GraphNode *currentGraphNode = [nodesInRouteInReverseOrder objectAtIndex:i];
+            GraphNode *nextGraphNode = (i - 1 < 0) ? nil : [nodesInRouteInReverseOrder objectAtIndex:(i - 1)];
             
             [route addStepFromNode:currentGraphNode withEdge:nextGraphNode ? [self edgeFromNode:currentGraphNode toNeighboringNode:nextGraphNode] : nil];
         }

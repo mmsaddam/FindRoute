@@ -7,11 +7,11 @@
 //
 
 #import "ViewController.h"
-#import "PESGraph.h"
-#import "PESGraphNode.h"
-#import "PESGraphEdge.h"
-#import "PESGraphRoute.h"
-#import "PESGraphRouteStep.h"
+#import "Graph.h"
+#import "GraphNode.h"
+#import "GraphEdge.h"
+#import "GraphRoute.h"
+#import "GraphRouteStep.h"
 
 @interface ViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *nodeA;
@@ -24,15 +24,15 @@
 @property (weak, nonatomic) IBOutlet UITextField *source;
 @property (weak, nonatomic) IBOutlet UITextField *destination;
 
-@property (nonatomic, strong) PESGraph *graph;
-@property (nonatomic, strong) PESGraphNode *aNode;
-@property (nonatomic, strong) PESGraphNode *bNode;
-@property (nonatomic, strong) PESGraphNode *cNode;
-@property (nonatomic, strong) PESGraphNode *dNode;
-@property (nonatomic, strong) PESGraphNode *eNode;
-@property (nonatomic, strong) PESGraphNode *fNode;
-@property (nonatomic, strong) PESGraphNode *gNode;
-@property (nonatomic, strong) PESGraphRoute *route;
+@property (nonatomic, strong) Graph *graph;
+@property (nonatomic, strong) GraphNode *aNode;
+@property (nonatomic, strong) GraphNode *bNode;
+@property (nonatomic, strong) GraphNode *cNode;
+@property (nonatomic, strong) GraphNode *dNode;
+@property (nonatomic, strong) GraphNode *eNode;
+@property (nonatomic, strong) GraphNode *fNode;
+@property (nonatomic, strong) GraphNode *gNode;
+@property (nonatomic, strong) GraphRoute *route;
 @end
 
 @implementation ViewController
@@ -46,7 +46,7 @@
     [self makeUIRound];
     [self reset];
     
-    graph = [[PESGraph alloc] init];
+    graph = [[Graph alloc] init];
     
     [self addNodeToGraph];
     
@@ -58,7 +58,7 @@
 }
 
 
--(PESGraphRoute *)findRouteFromNode:(PESGraphNode *)startNode ToNode:(PESGraphNode *)endNode{
+-(GraphRoute *)findRouteFromNode:(GraphNode *)startNode ToNode:(GraphNode *)endNode{
     return [graph shortestRouteFromNode:startNode toNode:eNode];
 }
 
@@ -75,21 +75,21 @@
 
 -(void)addNodeToGraph{
     
-    aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    dNode = [PESGraphNode nodeWithIdentifier:@"D"];
-    eNode = [PESGraphNode nodeWithIdentifier:@"E"];
-    fNode = [PESGraphNode nodeWithIdentifier:@"F"];
-    gNode = [PESGraphNode nodeWithIdentifier:@"G"];
+    aNode = [GraphNode nodeWithIdentifier:@"A"];
+    bNode = [GraphNode nodeWithIdentifier:@"B"];
+    cNode = [GraphNode nodeWithIdentifier:@"C"];
+    dNode = [GraphNode nodeWithIdentifier:@"D"];
+    eNode = [GraphNode nodeWithIdentifier:@"E"];
+    fNode = [GraphNode nodeWithIdentifier:@"F"];
+    gNode = [GraphNode nodeWithIdentifier:@"G"];
     
     
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:1]] fromNode:aNode toNode:bNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:1]] fromNode:bNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:eNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> F" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:fNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"F <-> G" andWeight:[NSNumber numberWithInt:1]] fromNode:fNode toNode:gNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:1]] fromNode:aNode toNode:bNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:1]] fromNode:bNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:eNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> F" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"F <-> G" andWeight:[NSNumber numberWithInt:1]] fromNode:fNode toNode:gNode];
 }
 
 -(void)reset{
@@ -100,7 +100,7 @@
     
     [self reset];
     
-    PESGraphNode *source = [[PESGraphNode alloc]init];
+    GraphNode *source = [[GraphNode alloc]init];
     if ([self.source.text isEqualToString:@"A"]) {
         source = aNode;
         NSLog(@"source A");
@@ -118,7 +118,7 @@
         source = gNode;
     }
     
-    PESGraphNode *destination = [[PESGraphNode alloc]init];
+    GraphNode *destination = [[GraphNode alloc]init];
     if ([self.destination.text isEqualToString:@"A"]) {
         destination = aNode;
     }else if([self.destination.text isEqualToString:@"B"]){
@@ -174,7 +174,7 @@
     if (count == route.count) {
         return;
     }
-    PESGraphRouteStep *obj = route.steps[count];
+    GraphRouteStep *obj = route.steps[count];
   __block  NSUInteger var = count;
     [UIView animateWithDuration:0.3 delay:0.3 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         if ([obj.node isEqual:aNode]) {

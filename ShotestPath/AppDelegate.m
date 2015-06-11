@@ -7,10 +7,10 @@
 //
 
 #import "AppDelegate.h"
-#import "PESGraph.h"
-#import "PESGraphNode.h"
-#import "PESGraphEdge.h"
-#import "PESGraphRoute.h"
+#import "Graph.h"
+#import "GraphNode.h"
+#import "GraphEdge.h"
+#import "GraphRoute.h"
 @interface AppDelegate ()
 
 @end
@@ -26,26 +26,26 @@
 }
 - (void)testShortestPath
 {
-    PESGraph *graph = [[PESGraph alloc] init];
+    Graph *graph = [[Graph alloc] init];
     
-    PESGraphNode *aNode = [PESGraphNode nodeWithIdentifier:@"A"];
-    PESGraphNode *bNode = [PESGraphNode nodeWithIdentifier:@"B"];
-    PESGraphNode *cNode = [PESGraphNode nodeWithIdentifier:@"C"];
-    PESGraphNode *dNode = [PESGraphNode nodeWithIdentifier:@"D"];
-    PESGraphNode *eNode = [PESGraphNode nodeWithIdentifier:@"E"];
-    PESGraphNode *fNode = [PESGraphNode nodeWithIdentifier:@"F"];
+    GraphNode *aNode = [GraphNode nodeWithIdentifier:@"A"];
+    GraphNode *bNode = [GraphNode nodeWithIdentifier:@"B"];
+    GraphNode *cNode = [GraphNode nodeWithIdentifier:@"C"];
+    GraphNode *dNode = [GraphNode nodeWithIdentifier:@"D"];
+    GraphNode *eNode = [GraphNode nodeWithIdentifier:@"E"];
+    GraphNode *fNode = [GraphNode nodeWithIdentifier:@"F"];
     
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:7]] fromNode:aNode toNode:bNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> C" andWeight:[NSNumber numberWithInt:9]] fromNode:aNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"A <-> F" andWeight:[NSNumber numberWithInt:14]] fromNode:aNode toNode:fNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:10]] fromNode:bNode toNode:cNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"B <-> D" andWeight:[NSNumber numberWithInt:15]] fromNode:bNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> F" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:fNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:11]] fromNode:cNode toNode:dNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:6]] fromNode:dNode toNode:eNode];
-    [graph addBiDirectionalEdge:[PESGraphEdge edgeWithName:@"E <-> F" andWeight:[NSNumber numberWithInt:9]] fromNode:eNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:7]] fromNode:aNode toNode:bNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> C" andWeight:[NSNumber numberWithInt:9]] fromNode:aNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> F" andWeight:[NSNumber numberWithInt:14]] fromNode:aNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:10]] fromNode:bNode toNode:cNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> D" andWeight:[NSNumber numberWithInt:15]] fromNode:bNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> F" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:fNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:11]] fromNode:cNode toNode:dNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:6]] fromNode:dNode toNode:eNode];
+    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"E <-> F" andWeight:[NSNumber numberWithInt:9]] fromNode:eNode toNode:fNode];
     
-    PESGraphRoute *route = [graph shortestRouteFromNode:aNode toNode:eNode];
+    GraphRoute *route = [graph shortestRouteFromNode:aNode toNode:eNode];
     
     NSLog(@"steps %@",route);
     

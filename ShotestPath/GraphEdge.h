@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PESGraphEdge : NSObject {
+@interface GraphEdge : NSObject {
     
     /**
      The weight of this edge from its starting point to its ending point.
@@ -33,7 +33,7 @@
 	@param aNumber the weight to assign to this edge
 	@returns an initialized and un-retained edge
  */
-+ (PESGraphEdge *)edgeWithName:(NSString *)aName andWeight:(NSNumber *)aNumber;
++ (GraphEdge *)edgeWithName:(NSString *)aName andWeight:(NSNumber *)aNumber;
 
 /**
  Convenience initializer that allows for setting the edge's name at initilization
@@ -41,7 +41,7 @@
  by this edge
  @returns an initialized and un-retained edge
  */
-+ (PESGraphEdge *)edgeWithName:(NSString *)aName;
++ (GraphEdge *)edgeWithName:(NSString *)aName;
 
 
 @end

@@ -7,14 +7,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class PESGraphNode, PESGraphEdge;
+@class GraphNode, GraphEdge;
 
 /**
 	Describes a complete route between two nodes in a PESGraph.  Not meant
  to be constructed directly from client programs, but instead managed
  by calls to methods like shortestRouteFromNode:toNode: in PESGraph
  */
-@interface PESGraphRoute : NSObject {
+@interface GraphRoute : NSObject {
     
     /**
      A collection of PESGraphRouteStep objects that describe a route
@@ -38,7 +38,7 @@
 	@param anEdge the edge from a node to another node, or nil if this is the last
  step in the route
  */
-- (void)addStepFromNode:(PESGraphNode *)aNode withEdge:(PESGraphEdge *)anEdge;
+- (void)addStepFromNode:(GraphNode *)aNode withEdge:(GraphEdge *)anEdge;
 
 /**
 	Returns the number of steps needed to complete the described route
@@ -51,13 +51,13 @@
 	@returns the node that the route starts from.  Returns nil on error or if there
  is no starting point
  */
-- (PESGraphNode *)startingNode;
+- (GraphNode *)startingNode;
 
 /**
 	Returns the point that the route leads to
 	@returns the node that the route starts from
  */
-- (PESGraphNode *)endingNode;
+- (GraphNode *)endingNode;
 
 /**
 	The total distance of the route, calculated by summing the weight between all the

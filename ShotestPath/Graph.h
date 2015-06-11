@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class PESGraphEdge, PESGraphNode, PESGraphRoute;
+@class GraphEdge, GraphNode, GraphRoute;
 
 /**
 	Class that depicts a set of nodes and the relationship between then (edges).  Also
  allows for calculating the quickest distance between two points in the graph
  */
-@interface PESGraph : NSObject {
+@interface Graph : NSObject {
     
     /**
     	A collection of PESGraphNodes managed by the graph.  Keys will be identifiers for
@@ -45,7 +45,7 @@
  in the graph
 	@returns Either nil or the node with the given identifier
  */
-- (PESGraphNode *)nodeInGraphWithIdentifier:(NSString *)anIdentifier;
+- (GraphNode *)nodeInGraphWithIdentifier:(NSString *)anIdentifier;
 
 /**
  Returns an edge object describing the edge from the given node to the destination node.  If no
@@ -54,7 +54,7 @@
  @param destinationNode the node to check the weight to
  @returns either nil, or the edge object describing the connection from one node to the other
  */
-- (PESGraphEdge *)edgeFromNode:(PESGraphNode *)sourceNode toNeighboringNode:(PESGraphNode *)destinationNode;
+- (GraphEdge *)edgeFromNode:(GraphNode *)sourceNode toNeighboringNode:(GraphNode *)destinationNode;
 
 /**
 	Returns the distance / weight from one node to another.  If either node is not
@@ -64,7 +64,7 @@
 	@param destinationNode the node to check the weight to
 	@returns either nil, or a number object describing the weight from one node to the other
  */
-- (NSNumber *)weightFromNode:(PESGraphNode *)sourceNode toNeighboringNode:(PESGraphNode *)destinationNode;
+- (NSNumber *)weightFromNode:(GraphNode *)sourceNode toNeighboringNode:(GraphNode *)destinationNode;
 
 /**
 	Returns an unordered collection of all nodes that receive edges from the given node.
@@ -72,7 +72,7 @@
 	@returns a set of zero or more other nodes.  Returns nil if aNode is not a member of the
  graph
  */
-- (NSSet *)neighborsOfNode:(PESGraphNode *)aNode;
+- (NSSet *)neighborsOfNode:(GraphNode *)aNode;
 
 /**
  Returns an unordered collection of all nodes that receive edges from the node identified
@@ -91,7 +91,7 @@
 	@param aNode the node that the edge travels from
 	@param anotherNode the node that the edge travels to
  */
-- (void)addEdge:(PESGraphEdge *)anEdge fromNode:(PESGraphNode *)aNode toNode:(PESGraphNode *)anotherNode;
+- (void)addEdge:(GraphEdge *)anEdge fromNode:(GraphNode *)aNode toNode:(GraphNode *)anotherNode;
 
 /**
  Removes a directional, weighted edge between two nodes in the graph.  If the edge does not exist, the
@@ -100,7 +100,7 @@
  @param anotherNode the node that the edge travels to
  @returns a boolean description of whether an edge was removed
  */
-- (BOOL)removeEdgeFromNode:(PESGraphNode*)aNode toNode:(PESGraphNode*)anotherNode;
+- (BOOL)removeEdgeFromNode:(GraphNode*)aNode toNode:(GraphNode*)anotherNode;
 
 /**
  Adds a weighted edge that travels in both directions from the two given nodes in the graph.  If any
@@ -109,7 +109,7 @@
  @param aNode one of the two nodes on one side of the edge
  @param anotherNode the other of the two nodes on the other side of the edge
  */
-- (void)addBiDirectionalEdge:(PESGraphEdge *)anEdge fromNode:(PESGraphNode *)aNode toNode:(PESGraphNode *)anotherNode;
+- (void)addBiDirectionalEdge:(GraphEdge *)anEdge fromNode:(GraphNode *)aNode toNode:(GraphNode *)anotherNode;
 
 /**
  Removes a bi-directional, weighted edge between two nodes in the graph.  If either edge does not exist, the
@@ -118,7 +118,7 @@
  @param anotherNode the node that the edge travels to
  @returns a boolean description of whether a bi-directional edge was removed
  */
-- (BOOL)removeBiDirectionalEdgeFromNode:(PESGraphNode*)aNode toNode:(PESGraphNode*)anotherNode;
+- (BOOL)removeBiDirectionalEdgeFromNode:(GraphNode*)aNode toNode:(GraphNode*)anotherNode;
 
 /**
 	Returns a route object that describes the quickest path between the two given nodes.  If no route
@@ -127,7 +127,7 @@
 	@param endNode a node in graph to calculate a route to
 	@returns either a PESGraphRoute object or nil, if no route is possible
  */
-- (PESGraphRoute *)shortestRouteFromNode:(PESGraphNode *)startNode toNode:(PESGraphNode *)endNode;
+- (GraphRoute *)shortestRouteFromNode:(GraphNode *)startNode toNode:(GraphNode *)endNode;
 
 
 #pragma mark -

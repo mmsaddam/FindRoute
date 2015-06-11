@@ -6,9 +6,9 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "PESGraphEdge.h"
+#import "GraphEdge.h"
 
-@implementation PESGraphEdge
+@implementation GraphEdge
 
 @synthesize name;
 @synthesize weight;
@@ -16,9 +16,9 @@
 #pragma mark -
 #pragma mark Class Methods
 
-+ (PESGraphEdge *)edgeWithName:(NSString *)aName andWeight:(NSNumber *)aNumber {
++ (GraphEdge *)edgeWithName:(NSString *)aName andWeight:(NSNumber *)aNumber {
     
-    PESGraphEdge *anEdge = [[PESGraphEdge alloc] init];
+    GraphEdge *anEdge = [[GraphEdge alloc] init];
     
     anEdge.weight = aNumber;
     anEdge.name = aName;
@@ -26,9 +26,9 @@
     return anEdge;
 }
 
-+ (PESGraphEdge *)edgeWithName:(NSString *)aName {
++ (GraphEdge *)edgeWithName:(NSString *)aName {
     
-    PESGraphEdge *anEdge = [[PESGraphEdge alloc] init];
+    GraphEdge *anEdge = [[GraphEdge alloc] init];
     
     anEdge.name = aName;
     

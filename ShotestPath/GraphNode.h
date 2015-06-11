@@ -13,7 +13,7 @@
  internally for dictionary look ups).  Each node can also optionally have a title and a dictionary for
  to hold further information about each node (eg latitude and longitude, or references to other objects, etc.)
  */
-@interface PESGraphNode : NSObject {
+@interface GraphNode : NSObject {
     
     /**
      A unique string identifer for this edge.  Must be unique among all other
@@ -41,6 +41,6 @@
 	@param anIdentifier a unique identifier for the node.  Must be unique for all nodes in a graph
  @returns an initialized and un-retained edge
  */
-+ (PESGraphNode *)nodeWithIdentifier:(NSString *)anIdentifier;
++ (GraphNode *)nodeWithIdentifier:(NSString *)anIdentifier;
 
 @end

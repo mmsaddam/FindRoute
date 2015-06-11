@@ -6,11 +6,11 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "PESGraphRouteStep.h"
-#import "PESGraphNode.h"
-#import "PESGraphEdge.h"
+#import "GraphRouteStep.h"
+#import "GraphNode.h"
+#import "GraphEdge.h"
 
-@implementation PESGraphRouteStep
+@implementation GraphRouteStep
 
 @synthesize node, edge, isBeginningStep, isEndingStep;
 
@@ -30,7 +30,7 @@
     return self;
 }
 
-- (id)initWithNode:(PESGraphNode *)aNode andEdge:(PESGraphEdge *)anEdge
+- (id)initWithNode:(GraphNode *)aNode andEdge:(GraphEdge *)anEdge
 {
     self = [super init];
     
@@ -45,7 +45,7 @@
     return self;
 }
 
-- (id)initWithNode:(PESGraphNode *)aNode andEdge:(PESGraphEdge *)anEdge asBeginning:(bool)isBeginning
+- (id)initWithNode:(GraphNode *)aNode andEdge:(GraphEdge *)anEdge asBeginning:(bool)isBeginning
 {
     self = [super init];
     
