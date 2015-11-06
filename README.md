@@ -1,9 +1,9 @@
-# ShortestPath
+# Dijkstra's Algorithm 
 by Md. Muzahidul Islam <mmsaddam@gmail.com>
 
 
 #Introduction
-Implementation of shortestpath graph algorithm using Objective-C.Creating Graph and travel among the node within shortest distance. Demo Graph and travese among two node have done.
+Implementation of shortestpath Dijkstra's graph algorithm using Objective-C.Creating Graph and travel among the node within shortest distance. Demo Graph and travese among two node have done.
 
 
 #Future Development
