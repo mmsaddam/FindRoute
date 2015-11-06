@@ -21,9 +21,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *nodeE;
 @property (weak, nonatomic) IBOutlet UIButton *nodeF;
 @property (weak, nonatomic) IBOutlet UIButton *nodeG;
+@property (weak, nonatomic) IBOutlet UIButton *findRoute;
+
 @property (weak, nonatomic) IBOutlet UITextField *source;
 @property (weak, nonatomic) IBOutlet UITextField *destination;
+@property (weak, nonatomic) IBOutlet UIImageView *drawImage;
 
+@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong) NSMutableArray *pointArray;
 @property (nonatomic, strong) Graph *graph;
 @property (nonatomic, strong) GraphNode *aNode;
 @property (nonatomic, strong) GraphNode *bNode;
@@ -36,13 +41,15 @@
 @end
 
 @implementation ViewController
-@synthesize nodeA,nodeB,nodeC,nodeD,nodeE,nodeF,nodeG;
+@synthesize nodeA,nodeB,nodeC,nodeD,nodeE,nodeF,nodeG,findRoute;
 @synthesize graph,aNode,bNode,cNode,dNode,eNode,fNode,gNode,route;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+  
+    self.color = nodeA.backgroundColor;
+    self.pointArray = [[NSMutableArray alloc]init];
     [self makeUIRound];
     [self reset];
     
@@ -70,6 +77,7 @@
     nodeE.layer.cornerRadius = 15;
     nodeF.layer.cornerRadius = 15;
     nodeG.layer.cornerRadius = 15;
+  findRoute.layer.cornerRadius = 7;
     
 }
 
@@ -83,18 +91,48 @@
     fNode = [GraphNode nodeWithIdentifier:@"F"];
     gNode = [GraphNode nodeWithIdentifier:@"G"];
     
-    
-    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:1]] fromNode:aNode toNode:bNode];
-    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:1]] fromNode:bNode toNode:cNode];
-    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:dNode];
-    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:eNode];
-    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> F" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:fNode];
-    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"F <-> G" andWeight:[NSNumber numberWithInt:1]] fromNode:fNode toNode:gNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"G <-> A" andWeight:[NSNumber numberWithInt:3]] fromNode:gNode toNode:aNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"G <-> B" andWeight:[NSNumber numberWithInt:2]] fromNode:gNode toNode:bNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"G <-> E" andWeight:[NSNumber numberWithInt:9]] fromNode:gNode toNode:eNode];
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> B" andWeight:[NSNumber numberWithInt:1]] fromNode:aNode toNode:bNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> E" andWeight:[NSNumber numberWithInt:5]] fromNode:aNode toNode:eNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"A <-> C" andWeight:[NSNumber numberWithInt:3]] fromNode:aNode toNode:cNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> E" andWeight:[NSNumber numberWithInt:1]] fromNode:bNode toNode:eNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> D" andWeight:[NSNumber numberWithInt:5]] fromNode:bNode toNode:dNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"E <-> C" andWeight:[NSNumber numberWithInt:5]] fromNode:eNode toNode:cNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"E <-> D" andWeight:[NSNumber numberWithInt:3]] fromNode:eNode toNode:dNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"E <-> F" andWeight:[NSNumber numberWithInt:8]] fromNode:eNode toNode:fNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> F" andWeight:[NSNumber numberWithInt:7]] fromNode:cNode toNode:fNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D <-> F" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:fNode];
+  
+  [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:2]] fromNode:cNode toNode:dNode];
+  
+//  
+//    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"B <-> C" andWeight:[NSNumber numberWithInt:1]] fromNode:bNode toNode:cNode];
+//    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> D" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:dNode];
+//    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"D <-> E" andWeight:[NSNumber numberWithInt:1]] fromNode:dNode toNode:eNode];
+//    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"C <-> F" andWeight:[NSNumber numberWithInt:1]] fromNode:cNode toNode:fNode];
+//    [graph addBiDirectionalEdge:[GraphEdge edgeWithName:@"F <-> G" andWeight:[NSNumber numberWithInt:1]] fromNode:fNode toNode:gNode];
 }
 
 -(void)reset{
-    nodeA.backgroundColor = nodeB.backgroundColor = nodeC.backgroundColor = nodeD.backgroundColor = nodeE.backgroundColor = nodeF.backgroundColor = nodeG.backgroundColor = [UIColor blueColor];
+  self.drawImage.image = nil;
+  nodeA.backgroundColor = nodeB.backgroundColor = nodeC.backgroundColor = nodeD.backgroundColor = nodeE.backgroundColor = nodeF.backgroundColor = nodeG.backgroundColor = self.color;
 }
+
+
 
 - (IBAction)findRoute:(id)sender {
     
@@ -103,7 +141,6 @@
     GraphNode *source = [[GraphNode alloc]init];
     if ([self.source.text isEqualToString:@"A"]) {
         source = aNode;
-        NSLog(@"source A");
     }else if([self.source.text isEqualToString:@"B"]){
         source = bNode;
     }if ([self.source.text isEqualToString:@"C"]) {
@@ -137,37 +174,60 @@
     }
     
     route = [graph shortestRouteFromNode:source toNode:destination];
-    
-    
-    [self animation:0];
-    
-    
-//    for (PESGraphRouteStep *obj in route.steps) {
-//        NSLog(@"node %@",obj.node);
-//        if ([obj.node isEqual:aNode]) {
-//            NSLog(@"Node A");
-//            nodeA.backgroundColor = [UIColor redColor];
-//        }else if([obj.node isEqual:bNode]){
-//            NSLog(@"Node B");
-//            nodeB.backgroundColor = [UIColor redColor];
-//        }if ([obj.node isEqual:cNode]) {
-//            NSLog(@"Node C");
-//            nodeC.backgroundColor = [UIColor redColor];
-//        }else if([obj.node isEqual:dNode]){
-//            NSLog(@"Node D");
-//            nodeD.backgroundColor = [UIColor redColor];
-//        }if ([obj.node isEqual:eNode]) {
-//            NSLog(@"Node E");
-//            nodeE.backgroundColor = [UIColor redColor];
-//        }else if([obj.node isEqual:fNode]){
-//            NSLog(@"Node F");
-//            nodeF.backgroundColor = [UIColor redColor];
-//        }else if([obj.node isEqual:gNode]){
-//            NSLog(@"Node G");
-//            nodeG.backgroundColor = [UIColor redColor];
-//        }
-//    }
+  
+  for (GraphRouteStep *obj in route.steps) {
+    if ([obj.node isEqual:aNode]) {
+      [self.pointArray addObject: [NSValue valueWithCGPoint:nodeA.center]];
+    }else if([obj.node isEqual:bNode]){
+      NSLog(@"Node B");
+      [self.pointArray addObject: [NSValue valueWithCGPoint:nodeB.center]];
+    }if ([obj.node isEqual:cNode]) {
+      NSLog(@"Node C");
+     [self.pointArray addObject: [NSValue valueWithCGPoint:nodeC.center]];
+    }else if([obj.node isEqual:dNode]){
+      NSLog(@"Node D");
+      [self.pointArray addObject: [NSValue valueWithCGPoint:nodeD.center]];
+    }if ([obj.node isEqual:eNode]) {
+      NSLog(@"Node E");
+      [self.pointArray addObject: [NSValue valueWithCGPoint:nodeE.center]];
+    }else if([obj.node isEqual:fNode]){
+      NSLog(@"Node F");
+     [self.pointArray addObject: [NSValue valueWithCGPoint:nodeF.center]];
+    }else if([obj.node isEqual:gNode]){
+      NSLog(@"Node G");
+      [self.pointArray addObject: [NSValue valueWithCGPoint:nodeG.center]];
+    }
 
+  }
+  
+  [self drawPath];
+
+  //  [self animation:0];
+  
+}
+
+
+-(void)drawPath{
+  
+  for (int i = 0; i < self.pointArray.count-1; i++) {
+    CGPoint startPoint = [[self.pointArray objectAtIndex:i] CGPointValue];
+    CGPoint nextPoint = [[self.pointArray objectAtIndex:i+1] CGPointValue];
+    
+    UIGraphicsBeginImageContext(self.drawImage.frame.size);
+    [self.drawImage.image drawInRect:CGRectMake(0, 0, self.drawImage.frame.size.width, self.drawImage.frame.size.height)];
+    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 5.0);
+    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 0.0, 0.5, 0.6, 1.0);
+    CGContextBeginPath(UIGraphicsGetCurrentContext());
+    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), startPoint.x, startPoint.y);
+    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), nextPoint.x, nextPoint.y);
+    CGContextStrokePath(UIGraphicsGetCurrentContext());
+    self.drawImage.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+  }
+  
+  
 }
 
 -(void)animation:(NSInteger)count{
