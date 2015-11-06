@@ -1,4 +1,4 @@
-# Dijkstra's Algorithm 
+# Implementation of Dijkstra's Algorithm 
 by Md. Muzahidul Islam <mmsaddam@gmail.com>
 
 [![Platform](http://img.shields.io/badge/platform-ios-blue.svg?style=flat
@@ -12,7 +12,7 @@ by Md. Muzahidul Islam <mmsaddam@gmail.com>
 Objective-C
 
 ##Tools
-Xcode 6.3, Cocoa Touch, QuickBlox
+Xcode 6.3, Cocoa Touch
 
 #Introduction
 Implementation of shortestpath Dijkstra's graph algorithm using Objective-C.Creating Graph and travel among the node within shortest distance. Demo Graph and travese among two node have done.
